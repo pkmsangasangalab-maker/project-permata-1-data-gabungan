@@ -715,7 +715,33 @@ body:not([data-view="ringkasan"]) [data-view="ringkasan"],
 body:not([data-view="backup"]) [data-view="backup"],
 body:not([data-view="panduan"]) [data-view="panduan"],
 body:not([data-view="kelurahan"]) [data-view="kelurahan"],
+body:not([data-view="expired"]) [data-view="expired"],
 body:not([data-view="tentang"]) [data-view="tentang"]{display:none!important}
+
+/* ===== Peringatan Expired Reagensia ===== */
+.ex-nav-badge{margin-left:auto;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#e5413c;color:#fff;font-size:.68rem;font-weight:700;line-height:20px;text-align:center}
+.ex-nav-badge[hidden]{display:none}
+.ex-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:14px}
+.ex-k{border:1px solid var(--line);border-left:5px solid var(--c,#94a3b8);border-radius:14px;padding:12px 14px;background:var(--panel,#fff);color:var(--ink,#222)}
+.ex-k small{display:block;color:var(--ink-2,#666);font-size:.74rem;font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+.ex-k b{display:block;font-size:1.9rem;line-height:1.15;margin:2px 0;color:var(--c,#222)}
+.ex-k span{font-size:.76rem;color:var(--ink-2,#666)}
+.ex-banner{border-radius:12px;padding:10px 14px;margin-bottom:14px;font-size:.86rem;font-weight:500;border:1px solid var(--line);background:var(--panel-2,#eee);color:var(--ink,#222)}
+.ex-banner.bad{background:#fde7e6;border-color:#e5413c66;color:#8c1d18}
+.ex-banner.warn{background:#fff4d6;border-color:#f5a80066;color:#7a5200}
+.ex-banner.ok{background:#e3f6ec;border-color:#22a06b66;color:#0f5a3a}
+.ex-wrap{max-height:520px;overflow:auto;border:1px solid var(--line);border-radius:14px;background:var(--panel,#fff)}
+#exTbl{width:100%;border-collapse:collapse;font-size:.82rem;color:var(--ink,#222)}
+#exTbl th{position:sticky;top:0;background:var(--panel-2,#eee);color:var(--ink-2,#555);text-align:left;padding:9px 10px;font-size:.76rem;font-weight:600;white-space:nowrap;z-index:1}
+#exTbl td{padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+#exTbl .num{text-align:right;font-variant-numeric:tabular-nums}
+#exTbl tr.ex-r-exp td:first-child{box-shadow:inset 4px 0 0 #e5413c}
+#exTbl tr.ex-r-k30 td:first-child{box-shadow:inset 4px 0 0 #f26a21}
+#exTbl tr.ex-r-k90 td:first-child{box-shadow:inset 4px 0 0 #f5a800}
+.ex-pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.72rem;font-weight:700;color:#fff;white-space:nowrap}
+.ex-p-exp{background:#e5413c}.ex-p-k30{background:#f26a21}.ex-p-k90{background:#d99200}.ex-p-k180{background:#6f9fbd}.ex-p-ok{background:#22a06b}.ex-p-none{background:#8f98a3}
+.ex-sub{display:block;font-size:.72rem;color:var(--ink-2,#666)}
+.ex-act{font-size:.78rem}
 /* tautan layanan hanya di Beranda + Mode Petugas */
 body:not(.staff) .section-title[data-category],body:not(.staff) .horizontal-grid[data-group],body:not(.staff) #favWrap,body:not(.staff) #emptyMsg,body:not(.staff) .control-panel,body:not(.staff) #staffNotice,
 body:not([data-view="links"]) .section-title[data-category],body:not([data-view="links"]) .horizontal-grid[data-group],body:not([data-view="links"]) #favWrap,body:not([data-view="links"]) #emptyMsg,body:not([data-view="links"]) .control-panel,body:not([data-view="links"]) #staffNotice{display:none!important}
@@ -1560,6 +1586,7 @@ html body.locked #loginOverlay #loginError:not(:empty){background:#ffe6e2;border
       <button class="side-link active" data-nav="home" onclick="setView('home', this)"><svg class="ic" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-6h4v6"/></svg><span class="lbl">Beranda</span></button>
       <button class="side-link staff-only" data-nav="tasks" onclick="setView('tasks', this)"><svg class="ic" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg><span class="lbl">Dashboard Tasks</span></button>
       <button class="side-link" data-nav="stok" onclick="setView('stok', this)"><svg class="ic" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6L5 19a1.6 1.6 0 0 0 1.4 2.3h11.2A1.6 1.6 0 0 0 19 19l-5-10V3"/><path d="M7.5 15h9"/></svg><span class="lbl">Stok Reagensia</span></button>
+      <button class="side-link" data-nav="expired" onclick="setView('expired', this)"><svg class="ic" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 2.8 19.5h18.4z"/><path d="M12 10v4.5"/><path d="M12 17.3v.2"/></svg><span class="lbl">Peringatan Expired</span><span class="ex-nav-badge" id="exNavBadge" hidden></span></button>
       <button class="side-link" data-nav="ringkasan" onclick="setView('ringkasan', this)"><svg class="ic" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="m5 15 4-4 3 3 6-7"/><path d="M15 7h3v3"/></svg><span class="lbl">Ringkasan Laporan<br>Tahunan Lab</span></button>
       <button class="side-link" data-nav="kelurahan" onclick="setView('kelurahan', this)"><svg class="ic" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span class="lbl">Tren per Kelurahan</span></button>
       <div class="side-label staff-only">MENU PETUGAS</div>
@@ -2033,6 +2060,34 @@ html body.locked #loginOverlay #loginError:not(:empty){background:#ffe6e2;border
         </div>
         <div class="stok-wrap"><table id="mutuTbl"><thead></thead><tbody></tbody></table></div>
         <p id="mutuNote">Memuat data…</p>
+      </div>
+    </section>
+
+  <section id="expLive" data-view="expired">
+      <div class="section-title"><i class="fa-solid fa-triangle-exclamation"></i> PERINGATAN EXPIRED REAGENSIA (DATA LANGSUNG)</div>
+      <div class="chart-card">
+        <div id="exBanner" class="ex-banner">Memuat data…</div>
+        <div class="ex-kpis" id="exKpi"></div>
+        <div class="stok-tools">
+          <select id="exFilter" autocomplete="off" aria-label="Filter status expired">
+            <option value="perhatian">Perlu perhatian (kedaluwarsa &amp; ≤ 90 hari)</option>
+            <option value="exp">Sudah kedaluwarsa</option>
+            <option value="k30">≤ 30 hari lagi</option>
+            <option value="k90">31–90 hari lagi</option>
+            <option value="k180">91–180 hari lagi</option>
+            <option value="ok">&gt; 180 hari (aman)</option>
+            <option value="none">Tanpa tanggal expired</option>
+            <option value="all">Semua reagen</option>
+          </select>
+          <input id="exCari" autocomplete="off" type="search" placeholder="Cari nama reagen…" aria-label="Cari nama reagen">
+          <label style="display:inline-flex;align-items:center;gap:6px;font-size:.82rem"><input type="checkbox" id="exStok"> Hanya yang masih ada stok</label>
+          <button class="btn-action" id="exMuat" type="button">🔄 Muat ulang</button>
+        </div>
+        <div style="margin:12px 0">
+          <div class="chart-card"><div class="chart-head"><h3>Jumlah Reagen per Rentang Sisa Waktu Expired</h3></div><div class="chart-box" style="height:260px"><canvas id="exChart"></canvas></div></div>
+        </div>
+        <div class="ex-wrap"><table id="exTbl"><thead><tr><th>Nama reagen</th><th>Kategori</th><th>Sumber</th><th>Tanggal expired</th><th>Sisa waktu</th><th class="num">Stok akhir</th><th>Status</th><th>Tindakan</th></tr></thead><tbody></tbody></table></div>
+        <p class="chart-note" id="exNote">Memuat data…</p>
       </div>
     </section>
 
@@ -3173,7 +3228,7 @@ var PANDUAN = [
       var def=d.length-1; for(var i=d.length-1;i>=0;i--){if(d[i].items.some(function(x){return x.o>0||x.i>0;})){def=i;break;}}
       $('stokBulan').selectedIndex=keep>=0&&keep<d.length?keep:def; applyTahun(true); render();
       $('stokNote').innerHTML='Diperbarui '+new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})+' dari Google Sheets.'+esc(ket)+' <a href="'+URL_SHEET+'" target="_blank" rel="noopener noreferrer">Buka spreadsheet</a>';
-      loaded=true;
+      loaded=true; window.__expData={m:res[0][0],t:new Date(),url:URL_SHEET}; if(window.__expSet)window.__expSet(window.__expData);
     }).catch(function(e){
       $('stokNote').innerHTML='Data stok gagal dimuat ['+esc(e&&e.message?e.message:'gagal terhubung')+']. Pastikan sheet bisa dilihat siapa pun yang punya link. <a href="'+URL_SHEET+'" target="_blank" rel="noopener noreferrer">Buka spreadsheet</a>';
     });
@@ -3190,8 +3245,91 @@ var PANDUAN = [
   $('skTbl').addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.sk-det-btn'); if(!b)return; var tr=b.closest('tr').nextElementSibling; if(tr)tr.hidden=!tr.hidden;});
    $('stokReagen').addEventListener('change',usage); $('skReagen').addEventListener('change',skUsage); $('stokTahun').addEventListener('change',function(){applyTahun(false);render();}); $('stokMuat').addEventListener('click',load); $('stokSalin').addEventListener('click',salin);
   var _t=window.toggleStaff; window.toggleStaff=function(){_t.apply(this,arguments);sync();};
-  window.__stokParse=parse; window.__stokCsv=csv;
+  window.__stokParse=parse; window.__stokCsv=csv; window.__stokLoad=load;
   sync();
+})();
+</script>
+<script>
+// ===== Peringatan expired reagensia: memakai kolom "Expired terakhir" dari tab LABSTOK - STOK OPNAME (dibaca modul stok di atas) =====
+(function(){
+  var $=function(i){return document.getElementById(i);};
+  var BL=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  var BK=[['exp','Kedaluwarsa','#e5413c'],['k30','0–30 hari','#f26a21'],['k90','31–90 hari','#d99200'],['k180','91–180 hari','#6f9fbd'],['yr','181–365 hari','#4fae8a'],['ok','> 1 tahun','#22a06b'],['none','Tanpa tanggal','#8f98a3']];
+  var D=null, C=null, rows=[];
+  var esc=function(t){return String(t==null?'':t).replace(/[&<>"]/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m];});};
+  var fmt=function(n){return Number(n).toLocaleString('id-ID');};
+  function tgl(t){t=String(t||'').trim(); if(!t)return null; var m=/^(\d{4})-(\d{1,2})-(\d{1,2})/.exec(t), d,mo,y;
+    if(m){y=+m[1];mo=+m[2];d=+m[3];} else {m=/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})/.exec(t); if(!m)return null; d=+m[1];mo=+m[2];y=+m[3]; if(mo>12&&d<=12){var z=d;d=mo;mo=z;}}
+    var dt=new Date(y,mo-1,d); return isNaN(dt)?null:dt;}
+  function sisa(days){
+    if(days<0){var a=-days; return a<45?'Lewat '+a+' hari':'Lewat '+Math.round(a/30)+' bulan';}
+    if(days===0)return 'Hari ini'; if(days<=60)return days+' hari lagi';
+    if(days<540)return Math.round(days/30)+' bulan lagi'; return (days/365).toFixed(1).replace('.',',')+' tahun lagi';}
+  function kelas(days){return days==null?'none':days<0?'exp':days<=30?'k30':days<=90?'k90':days<=180?'k180':days<=365?'yr':'ok';}
+  function bucket(k){return k==='yr'?'ok':k;}
+  function build(){
+    var today=new Date(); today=new Date(today.getFullYear(),today.getMonth(),today.getDate());
+    rows=D.m.items.map(function(x){var dt=tgl(x.ex), days=dt?Math.round((dt-today)/86400000):null;
+      return {x:x,dt:dt,days:days,k:kelas(days)};});
+    rows.sort(function(a,b){return (a.days==null?1e9:a.days)-(b.days==null?1e9:b.days)||a.x.n.localeCompare(b.x.n);});
+  }
+  function aksi(r){var s=r.x.e>0;
+    if(r.k==='exp')return s?'<b>Jangan dipakai.</b> Pisahkan &amp; musnahkan sesuai SOP.':'Stok habis. Pastikan lot baru dicatat tanggal expirednya.';
+    if(r.k==='k30')return s?'<b>Pakai lebih dulu</b> (FEFO) &amp; siapkan pengganti.':'Stok habis. Siapkan order lot baru.';
+    if(r.k==='k90')return s?'Prioritaskan pemakaian (FEFO).':'Stok habis. Pantau order.';
+    if(r.k==='none')return 'Lengkapi tanggal expired di sheet.';
+    return '–';}
+  function filt(){
+    var f=$('exFilter').value,q=$('exCari').value.toLowerCase().trim(),st=$('exStok').checked;
+    return rows.filter(function(r){
+      if(q&&r.x.n.toLowerCase().indexOf(q)<0)return false;
+      if(st&&!(r.x.e>0))return false;
+      if(f==='all')return true;
+      if(f==='perhatian')return r.k==='exp'||r.k==='k30'||r.k==='k90';
+      if(f==='ok')return r.k==='ok'||r.k==='yr';
+      return r.k===f;});}
+  function render(){
+    if(!D)return;
+    var cnt={exp:0,k30:0,k90:0,k180:0,ok:0,none:0}, stk={exp:0,k30:0,k90:0};
+    rows.forEach(function(r){cnt[bucket(r.k==='yr'?'ok':r.k)]++; if(stk[r.k]!=null&&r.x.e>0)stk[r.k]++;});
+    var hot=stk.exp+stk.k30, att=cnt.exp+cnt.k30+cnt.k90;
+    var bn=$('exBanner');
+    if(stk.exp>0){bn.className='ex-banner bad';bn.innerHTML='⚠️ <b>'+stk.exp+' reagen sudah kedaluwarsa tetapi masih ada stok.</b> Pisahkan dan jangan digunakan untuk pemeriksaan.';}
+    else if(hot>0){bn.className='ex-banner warn';bn.innerHTML='⏳ <b>'+stk.k30+' reagen dengan stok akan expired dalam 30 hari.</b> Pakai lebih dulu (FEFO).';}
+    else if(att>0){bn.className='ex-banner warn';bn.innerHTML='ℹ️ Tidak ada reagen ber-stok yang kedaluwarsa atau expired ≤ 30 hari. Ada <b>'+att+'</b> reagen berstatus kedaluwarsa / ≤ 90 hari, tetapi stoknya sudah habis (lihat tabel).';}
+    else {bn.className='ex-banner ok';bn.innerHTML='✅ Tidak ada reagen kedaluwarsa atau yang akan expired dalam 90 hari.';}
+    function k(c,t,v,s){return '<div class="ex-k" style="--c:'+c+'"><small>'+t+'</small><b>'+fmt(v)+'</b><span>'+s+'</span></div>';}
+    $('exKpi').innerHTML=k('#e5413c','Kedaluwarsa',cnt.exp,fmt(stk.exp)+' masih ada stok')+k('#f26a21','≤ 30 hari',cnt.k30,fmt(stk.k30)+' masih ada stok')+
+      k('#d99200','31–90 hari',cnt.k90,fmt(stk.k90)+' masih ada stok')+k('#8f98a3','Tanpa tanggal expired',cnt.none,'dari '+rows.length+' reagen aktif');
+    var nb=$('exNavBadge'); if(nb){nb.textContent=att; nb.hidden=!(att>0);}
+    var list=filt();
+    $('exTbl').tBodies[0].innerHTML=list.length?list.map(function(r){
+      var tx=r.dt?r.dt.getDate()+' '+BL[r.dt.getMonth()]+' '+r.dt.getFullYear():'–';
+      var lab=BK.filter(function(b){return b[0]===r.k;})[0]||BK[5];
+      var pc=r.k==='yr'?'ok':r.k;
+      return '<tr class="ex-r-'+r.k+'"><td><b>'+esc(r.x.n)+'</b>'+(r.x.kd?'<span class="ex-sub">'+esc(r.x.kd)+'</span>':'')+'</td><td>'+esc(r.x.kt||'–')+'</td><td>'+esc(r.x.s||'–')+'</td><td>'+tx+'</td><td>'+(r.days==null?'–':sisa(r.days))+'</td><td class="num"><b>'+fmt(r.x.e)+'</b></td><td><span class="ex-pill ex-p-'+pc+'">'+(r.k==='ok'||r.k==='yr'?'Aman':lab[1])+'</span></td><td class="ex-act">'+aksi(r)+'</td></tr>';
+    }).join(''):'<tr><td colspan="8">Tidak ada reagen yang cocok dengan filter.</td></tr>';
+    chart(cnt);
+    var t=D.t; $('exNote').innerHTML='Diperbarui '+t.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})+' dari Google Sheets (tab LABSTOK - STOK OPNAME, '+esc(D.m.name)+' '+D.m.yr+'). Tanggal yang dipakai adalah <b>Expired terakhir</b> tiap reagen (lot terbaru). Batas peringatan: 30 dan 90 hari dari hari ini. Reagen NONAKTIF tidak ditampilkan. <a href="'+esc(D.url)+'" target="_blank" rel="noopener noreferrer">Buka spreadsheet</a>';
+  }
+  function chart(cnt){
+    if(typeof Chart==='undefined'||!$('exChart'))return;
+    var c2={exp:cnt.exp,k30:cnt.k30,k90:cnt.k90,k180:cnt.k180,yr:0,ok:cnt.ok,none:cnt.none};
+    var yr=0,ok=0; rows.forEach(function(r){if(r.k==='yr')yr++; else if(r.k==='ok')ok++;}); c2.yr=yr; c2.ok=ok;
+    var o=Chart.getChart($('exChart')); if(o)o.destroy();
+    var dark=document.documentElement.getAttribute('data-theme')!=='biru'?'#6a665f':'#4a6283';
+    new Chart($('exChart'),{type:'bar',data:{labels:BK.map(function(b){return b[1];}),datasets:[{data:BK.map(function(b){return c2[b[0]]||0;}),backgroundColor:BK.map(function(b){return b[2];}),borderRadius:6,maxBarThickness:56}]},
+      options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16}},plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.parsed.y+' reagen';}}}},
+        scales:{x:{grid:{display:false},ticks:{color:dark,font:{size:11}}},y:{beginAtZero:true,ticks:{precision:0,color:dark},grid:{color:'rgba(120,120,120,.15)'},border:{display:false}}}},
+      plugins:[{id:'exv',afterDatasetsDraw:function(ch){var c=ch.ctx;c.save();c.fillStyle=dark;c.font='600 12px sans-serif';c.textAlign='center';ch.getDatasetMeta(0).data.forEach(function(b,i){var v=ch.data.datasets[0].data[i]; if(v)c.fillText(v,b.x,b.y-5);});c.restore();}}]});
+  }
+  window.__expSet=function(d){D=d;build();render();};
+  ['exFilter','exStok'].forEach(function(i){$(i).addEventListener('change',render);});
+  $('exCari').addEventListener('input',render);
+  $('exMuat').addEventListener('click',function(){$('exNote').textContent='Memuat data…'; if(window.__stokLoad)window.__stokLoad();});
+  var nav=document.querySelector('[data-nav="expired"]'); if(nav)nav.addEventListener('click',function(){setTimeout(render,120);});
+  if(window.__expData)window.__expSet(window.__expData);
+  else setTimeout(function(){if(!D)$('exBanner').innerHTML='Data belum tersedia. Pastikan sheet bisa dilihat siapa pun yang punya link, lalu klik Muat ulang.';},15000);
 })();
 </script>
 <script>
