@@ -1799,7 +1799,7 @@ html body.locked #loginOverlay #loginError:not(:empty){background:#ffe6e2;border
       <i class="fa-solid fa-boxes-stacked"></i> STOK, PERALATAN & KONTROL MUTU
     </div>
     <div class="horizontal-grid" data-group="stok">
-      <a rel="noopener noreferrer" data-internal href="https://docs.google.com/spreadsheets/d/1tjKSA3KUUer966CWD_uuGVbPJr_kbJOooGoQ18fveuQ/edit?gid=688026596#gid=688026596" target="_blank" class="card">
+      <a rel="noopener noreferrer" data-internal href="https://docs.google.com/spreadsheets/d/1axwil6eYFLv8OPg44DwEL0SHawrB5r_tdzWnhR78clg/edit?gid=131724345#gid=131724345" target="_blank" class="card">
         <div class="icon">📦</div>
         <div>
           <h3>REKAP STOK, PENERIMAAN DAN PEMERIKSAAN LAB</h3>
@@ -2862,9 +2862,9 @@ var PANDUAN = [
 </script>
 
 <script>
-// Stok reagensia: dibaca langsung dari Google Sheets "data gabungan dashboard 2026", tab "LABSTOK - STOK OPNAME" (sheet harus bisa dilihat siapa pun yang punya link)
+// Stok reagensia: dibaca langsung dari Google Sheets "REKAP_LAB_DAN_STOK_OPNAME_2026", tab "STOK OPNAME" (sheet harus bisa dilihat siapa pun yang punya link)
 (function(){
-  var SID='1tjKSA3KUUer966CWD_uuGVbPJr_kbJOooGoQ18fveuQ', GID='688026596', GID_MASTER='197441138', GID_LOG='894189539';
+  var SID='1axwil6eYFLv8OPg44DwEL0SHawrB5r_tdzWnhR78clg', GID='131724345', GID_MASTER='967284261', GID_LOG='512586976';
   var URL_CSV='https://docs.google.com/spreadsheets/d/'+SID+'/gviz/tq?tqx=out:csv&gid='+GID;
   var URL_SHEET='https://docs.google.com/spreadsheets/d/'+SID+'/edit?gid='+GID;
   // Aturan order mengikuti sheet: kolom "Status" = ORDER bila stok akhir <= buffer, HABIS bila stok akhir 0, NONAKTIF tidak dihitung.
@@ -3566,13 +3566,12 @@ var PANDUAN = [
 })();
 </script>
 <script>
-// ===== Tren pemeriksaan per kelurahan (Google Sheets "data gabungan dashboard 2026", tab "LABSTOK - REKAP KELURAHAN") =====
+// ===== Tren pemeriksaan per kelurahan (Google Sheets "REKAP_LAB_DAN_STOK_OPNAME_2026", tab "REKAP KELURAHAN") =====
 (function(){
-  var SID='1tjKSA3KUUer966CWD_uuGVbPJr_kbJOooGoQ18fveuQ', GID='829812858';
+  var SID='1axwil6eYFLv8OPg44DwEL0SHawrB5r_tdzWnhR78clg', GID='1506686793';
   var URL_SHEET='https://docs.google.com/spreadsheets/d/'+SID+'/edit?gid='+GID;
-  // Tahun yang belum penuh: jumlah bulan yang sudah terisi (2026 = riwayat Jan-Sep + Oktober dari INPUT KELURAHAN).
-  // Label di sheet (mis. "JANUARI-OKTOBER") otomatis diutamakan.
-  var BULAN_TERISI={2026:10};
+  // Jumlah bulan terisi dibaca dari label periode atau sel "Rekap [tahun] sampai bulan ke-" pada sheet.
+  var BULAN_TERISI={2026:11};
   var BLN=['JANUARI','FEBRUARI','MARET','APRIL','MEI','JUNI','JULI','AGUSTUS','SEPTEMBER','OKTOBER','NOVEMBER','DESEMBER'];
   var SHORT=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
   var CATS=['Kimia Klinik','Hematologi','Imunologi','Urinalisa','NAPZA / Toksikologi','Mikrobiologi & Parasitologi','Lain-lain'];
@@ -3603,6 +3602,11 @@ var PANDUAN = [
   function parse(rows){
     var out={years:[],kel:[],months:{},val:{}},i,j,c,k,lain=false;
     var known=Object.keys(LAYOUT).map(Number).sort(function(a,b){return a-b;});
+    // Sumber baru menyimpan batas bulan pada baris "Rekap 2026 sampai bulan ke-".
+    for(i=0;i<rows.length;i++){
+      var pm=/^rekap\s+(\d{4})\s+sampai\s+bulan\s+ke-/i.exec(String(rows[i][0]||'').trim());
+      if(pm){var mc=num(rows[i][1]);if(mc>=1&&mc<=12)out.months[+pm[1]]=mc;}
+    }
     // Judul blok: "TAHUN 2026" (dihitung otomatis dari INPUT KELURAHAN) dan "RIWAYAT 2026 (...)" (format lama).
     // Blok dengan tahun yang sama dijumlahkan.
     for(i=0;i<rows.length;i++){
@@ -3610,7 +3614,7 @@ var PANDUAN = [
       var y=+m[1], label='';
       for(c=1;c<rows[i].length;c++)label+=' '+String(rows[i][c]||'');
       var mm=/JANUARI\s*-\s*([A-Z]+)/.exec(label.toUpperCase());
-      if(mm&&BLN.indexOf(mm[1])>-1)out.months[y]=BLN.indexOf(mm[1])+1; else if(BULAN_TERISI[y])out.months[y]=BULAN_TERISI[y];
+      if(mm&&BLN.indexOf(mm[1])>-1)out.months[y]=BLN.indexOf(mm[1])+1; else if(!out.months[y]&&BULAN_TERISI[y])out.months[y]=BULAN_TERISI[y];
       var h=-1; for(j=i+1;j<=i+3&&j<rows.length;j++){if(/^kelurahan$/i.test(String(rows[j][0]||'').trim())){h=j;break;}}
       if(h<0)continue;
       var map=[],ok=0;
@@ -3909,11 +3913,11 @@ var PANDUAN = [
 })();
 </script>
 <script>
-// ===== Dashboard pemeriksaan berdasarkan hari (Google Sheets "data gabungan dashboard 2026", 12 tab bulanan "LABSTOK - LAB JAN" … "LABSTOK - LAB DES") =====
+// ===== Dashboard pemeriksaan berdasarkan hari (Google Sheets "REKAP_LAB_DAN_STOK_OPNAME_2026", 12 tab bulanan "LAB JAN" … "LAB DES") =====
 (function(){
-  var SID='1tjKSA3KUUer966CWD_uuGVbPJr_kbJOooGoQ18fveuQ';
+  var SID='1axwil6eYFLv8OPg44DwEL0SHawrB5r_tdzWnhR78clg';
   // gid tab LABSTOK - LAB JAN … DES (urutan = nomor bulan)
-  var GIDS=['254767566','1244395372','734810437','724180283','368722089','1544993985','223058816','1377982589','1137837547','1862401135','1799556095','787485626'];
+  var GIDS=['482305516','618777133','1272825076','275543783','1840821210','991798025','73921279','578483524','2026233475','161621160','993635097','22302672'];
   var URL_CSV=function(g){return 'https://docs.google.com/spreadsheets/d/'+SID+'/gviz/tq?tqx=out:csv&gid='+g;};
   var URL_SHEET='https://docs.google.com/spreadsheets/d/'+SID+'/edit?gid='+GIDS[Math.min(new Date().getMonth(),11)];
   var BLN=['JANUARI','FEBRUARI','MARET','APRIL','MEI','JUNI','JULI','AGUSTUS','SEPTEMBER','OKTOBER','NOVEMBER','DESEMBER'];
@@ -4042,7 +4046,7 @@ var PANDUAN = [
       var d=list.filter(Boolean).sort(function(a,b){return a.yr!==b.yr?a.yr-b.yr:a.mi-b.mi;});
       if(!d.length)throw new Error('belum ada hari layanan terisi di tab LAB bulanan');
       M=d; fillSel(); render();
-      $('rsHrNote').innerHTML='Data langsung dari Google Sheets "data gabungan dashboard 2026" (tab LABSTOK - LAB bulanan). Rata-rata dihitung per hari layanan (hari tanpa pasien seperti Minggu/libur tidak dihitung). Diperbarui '+new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})+'. <a href="'+URL_SHEET+'" target="_blank" rel="noopener noreferrer">Buka spreadsheet</a>';
+      $('rsHrNote').innerHTML='Data langsung dari Google Sheets "REKAP_LAB_DAN_STOK_OPNAME_2026" (tab LAB bulanan). Rata-rata dihitung per hari layanan (hari tanpa pasien seperti Minggu/libur tidak dihitung). Diperbarui '+new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})+'. <a href="'+URL_SHEET+'" target="_blank" rel="noopener noreferrer">Buka spreadsheet</a>';
     }).catch(function(e){
       $('rsHrNote').innerHTML='Data harian gagal dimuat ['+esc(e&&e.message?e.message:'gagal terhubung')+']. Pastikan sheet bisa dilihat siapa pun yang punya link. <a href="'+URL_SHEET+'" target="_blank" rel="noopener noreferrer">Buka spreadsheet</a>';
       if(!M.length)$('rsHrTop').innerHTML='<tr><td colspan="4">Data belum tersedia.</td></tr>';
